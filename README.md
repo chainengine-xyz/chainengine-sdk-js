@@ -1,6 +1,13 @@
 # ChainEngine SDK JS
 
+## Publishing to npm
+npm install
+npm run build
+npm login
+npm publish
 
+Note: <B> Every time after publish version in package.json needs to be incremented</B>
+TODO: make this automatic when merge request to main branch is approved. 
 
 ## Getting started
 
