@@ -1,3 +1,3 @@
 export enum FetchType {
-    Account = 'account', Player = 'player'
+    Account = 'account', Game = 'game', Player = 'player'
 }

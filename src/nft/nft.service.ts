@@ -1,43 +1,42 @@
 import { ApiBase } from '../main/api.base';
 import { HttpHelper } from '../main/http.helper';
-import { NftDto } from './nft.dto';
 import { TransferDto } from './transfer.dto';
-import { ChainType } from './chain.type';
 import { FetchQueryParams } from './fetch.query.params';
-import { FetchNftsResponse } from './fetch.nfts.response';
-import { ErrorResponse } from '../common/error.response';
-import { NftResponse } from './nft.response';
+import { NftRequestDto, NftResponseDto } from './nft.dto';
+import { ResponseDto } from '../common/response.dto';
+import { TransactionEntry } from './transaction.entry.dto';
+import { NftPaginationDto } from './nft.pagination.dto';
 
 export class NftService extends ApiBase {
     constructor(path, headers) {
-        super(`${path}/account/nfts`, headers);
+        super(`${path}/nfts`, headers);
     }
 
-    public async mint(data: Array<NftDto>): Promise<NftResponse | ErrorResponse> {
-        return await HttpHelper.sendPost<NftResponse>(this.path, this.headers, data);
+    public async mint(data: NftRequestDto[]): Promise<ResponseDto<NftResponseDto[]>> {
+        return await HttpHelper.sendPost<NftResponseDto[]>(this.path, this.headers, data);
     }
 
-    public async mintToGame(data: Array<NftDto>, gameId: string): Promise<NftResponse | ErrorResponse> {
-        return await HttpHelper.sendPost<NftResponse>(`${this.path}/game/${gameId}`, this.headers, data);
+    public async mintToGame(data: NftRequestDto[], gameId: string): Promise<ResponseDto<NftResponseDto[]>> {
+        return await HttpHelper.sendPost<NftResponseDto[]>(`${this.path}/game/${gameId}`, this.headers, data);
     }
 
-    public async transfer(data: TransferDto, id: string): Promise<NftResponse | ErrorResponse> {
-        return await HttpHelper.sendPost<NftResponse>(`${this.path}/${id}/transfer`, this.headers, data);
+    public async transfer(data: TransferDto, nftId: string): Promise<ResponseDto<NftResponseDto>> {
+        return await HttpHelper.sendPost<NftResponseDto>(`${this.path}/${nftId}/transfers`, this.headers, data);
     }
 
-    public async getTransfersHistory(onChainId: string): Promise<NftResponse | ErrorResponse> {
-        return await HttpHelper.sendGet<NftResponse>(`${this.path}/transfers/${onChainId}`, this.headers);
+    public async getTransfersHistory(nftId: string): Promise<ResponseDto<TransactionEntry[]>> {
+        return await HttpHelper.sendGet<TransactionEntry[]>(`${this.path}/${nftId}/transfers`, this.headers);
     }
 
-    public async getById(id: string): Promise<NftResponse | ErrorResponse> {
-        return await HttpHelper.sendGet<NftResponse>(`${this.path}/${id}`, this.headers);
+    public async getNft(id: string): Promise<ResponseDto<NftResponseDto>> {
+        return await HttpHelper.sendGet<NftResponseDto>(`${this.path}/${id}`, this.headers);
     }
 
-    public async getImage(chain: ChainType, onChainId: string): Promise<Int8Array | ErrorResponse> {
-        return await HttpHelper.sendGet<Int8Array>(`${this.path}/${chain}/image/${onChainId}`, this.headers);
+    public async getNftImage(nftId: string): Promise<Int8Array | undefined> {
+        return (await HttpHelper.sendGet<Int8Array>(`${this.path}/${nftId}/image`, this.headers)).data;
     }
 
-    public async fetchNFTs(queryParams: FetchQueryParams): Promise<FetchNftsResponse | ErrorResponse> {
-        return await HttpHelper.sendGet<FetchNftsResponse>(this.path, this.headers, queryParams);
+    public async fetchNFTs(queryParams: FetchQueryParams): Promise<ResponseDto<NftPaginationDto>> {
+        return await HttpHelper.sendGet<NftPaginationDto>(this.path, this.headers, queryParams);
     }
 }
