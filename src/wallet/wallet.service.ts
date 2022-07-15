@@ -11,6 +11,7 @@ import {
     WalletAddressResponseDto,
     WalletNftResponseDto
 } from './wallet.dto';
+import { Utils } from '../common/utils';
 
 export class WalletService extends ApiBase {
     constructor(path, headers) {
@@ -21,7 +22,7 @@ export class WalletService extends ApiBase {
         playerId: string,
         data: RestoreWalletPasswordRequestDto
     ): Promise<ResponseDto<RestoreWalletPasswordResponseDto>> {
-        return await HttpHelper
+        return HttpHelper
             .sendPost<RestoreWalletPasswordResponseDto>(
                 `${this.path}/${playerId}/restore-password`,
                 this.headers,
@@ -30,29 +31,48 @@ export class WalletService extends ApiBase {
     }
 
     public async getWalletAddress(playerId: string): Promise<ResponseDto<WalletAddressResponseDto>> {
-        return await HttpHelper
+        return HttpHelper
             .sendGet<WalletAddressResponseDto>(`${this.path}/${playerId}/wallet-address`, this.headers);
     }
 
     public async getNFTs(playerId: string): Promise<ResponseDto<WalletNftResponseDto[]>> {
-        return await HttpHelper.sendGet<WalletNftResponseDto[]>(`${this.path}/${playerId}/get-nfts`, this.headers);
+        const result = await HttpHelper
+            .sendGet<WalletNftResponseDto[]>(`${this.path}/${playerId}/get-nfts`, this.headers);
+
+        result.data = result.data?.map((transfer) => {
+            return Utils.keysToCamel(transfer) as WalletNftResponseDto;
+        });
+
+        return result;
     }
 
     public async getTransactionsHistory(playerId: string): Promise<ResponseDto<TransactionsHistoryResponseDto[]>> {
-        return await HttpHelper
+        const result = await HttpHelper
             .sendGet<TransactionsHistoryResponseDto[]>(`${this.path}/${playerId}/transactions`, this.headers);
+
+        result.data = result.data?.map((transfer) => {
+            return Utils.keysToCamel(transfer) as TransactionsHistoryResponseDto;
+        });
+
+        return result;
     }
 
     public async getNftTransfersHistory(playerId: string): Promise<ResponseDto<TransfersHistoryResponseDto[]>> {
-        return await HttpHelper
+        const result = await HttpHelper
             .sendGet<TransfersHistoryResponseDto[]>(`${this.path}/${playerId}/transfers`, this.headers);
+
+        result.data = result.data?.map((transfer) => {
+            return Utils.keysToCamel(transfer) as TransfersHistoryResponseDto;
+        });
+
+        return result;
     }
 
     public async transferNft(playerId: string, data: TransferNftRequestDto): Promise<ResponseDto<void>> {
-        return await HttpHelper.sendPost<void>(`${this.path}/${playerId}/transfer-nft`, this.headers, data);
+        return HttpHelper.sendPost<void>(`${this.path}/${playerId}/transfer-nft`, this.headers, data);
     }
 
     public async transferTokenAmount(playerId: string, data: TransferTokenRequestDto): Promise<ResponseDto<void>> {
-        return await HttpHelper.sendPost<void>(`${this.path}/${playerId}/transfer-value`, this.headers, data);
+        return HttpHelper.sendPost<void>(`${this.path}/${playerId}/transfer-value`, this.headers, data);
     }
 }

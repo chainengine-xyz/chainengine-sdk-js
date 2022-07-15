@@ -13,23 +13,23 @@ export class NftService extends ApiBase {
     }
 
     public async mint(data: NftRequestDto[]): Promise<ResponseDto<NftResponseDto[]>> {
-        return await HttpHelper.sendPost<NftResponseDto[]>(this.path, this.headers, data);
+        return HttpHelper.sendPost<NftResponseDto[]>(this.path, this.headers, data);
     }
 
     public async mintToGame(data: NftRequestDto[], gameId: string): Promise<ResponseDto<NftResponseDto[]>> {
-        return await HttpHelper.sendPost<NftResponseDto[]>(`${this.path}/game/${gameId}`, this.headers, data);
+        return HttpHelper.sendPost<NftResponseDto[]>(`${this.path}/game/${gameId}`, this.headers, data);
     }
 
     public async transfer(data: TransferDto, nftId: string): Promise<ResponseDto<NftResponseDto>> {
-        return await HttpHelper.sendPost<NftResponseDto>(`${this.path}/${nftId}/transfers`, this.headers, data);
+        return HttpHelper.sendPost<NftResponseDto>(`${this.path}/${nftId}/transfers`, this.headers, data);
     }
 
     public async getTransfersHistory(nftId: string): Promise<ResponseDto<TransactionEntry[]>> {
-        return await HttpHelper.sendGet<TransactionEntry[]>(`${this.path}/${nftId}/transfers`, this.headers);
+        return HttpHelper.sendGet<TransactionEntry[]>(`${this.path}/${nftId}/transfers`, this.headers);
     }
 
     public async getNft(id: string): Promise<ResponseDto<NftResponseDto>> {
-        return await HttpHelper.sendGet<NftResponseDto>(`${this.path}/${id}`, this.headers);
+        return HttpHelper.sendGet<NftResponseDto>(`${this.path}/${id}`, this.headers);
     }
 
     public async getNftImage(nftId: string): Promise<Int8Array | undefined> {
@@ -37,6 +37,6 @@ export class NftService extends ApiBase {
     }
 
     public async fetchNFTs(queryParams: FetchQueryParams): Promise<ResponseDto<NftPaginationDto>> {
-        return await HttpHelper.sendGet<NftPaginationDto>(this.path, this.headers, queryParams);
+        return HttpHelper.sendGet<NftPaginationDto>(this.path, this.headers, queryParams);
     }
 }

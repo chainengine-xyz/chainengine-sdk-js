@@ -11,18 +11,18 @@ export class PlayerService extends ApiBase {
     }
 
     public async create(data: PlayerRequestDto): Promise<ResponseDto<CreatePlayerResponseDto>> {
-        return await HttpHelper.sendPost<CreatePlayerResponseDto>(this.path, this.headers, data);
+        return HttpHelper.sendPost<CreatePlayerResponseDto>(this.path, this.headers, data);
     }
 
     public async getById(id: string): Promise<ResponseDto<PlayerResponseDto>> {
-        return await HttpHelper.sendGet<PlayerResponseDto>(`${this.path}/${id}`, this.headers);
+        return HttpHelper.sendGet<PlayerResponseDto>(`${this.path}/${id}`, this.headers);
     }
 
     public async getByGameId(
         gameId: string,
         queryParams?: PlayerQueryParams
     ): Promise<ResponseDto<PaginationDto<PlayerResponseDto>>> {
-        return await HttpHelper
+        return HttpHelper
             .sendGet<PaginationDto<PlayerResponseDto>>(
                 `${this.path}/game/${gameId}`,
                 this.headers,
@@ -31,6 +31,6 @@ export class PlayerService extends ApiBase {
     }
 
     public async delete(id: string): Promise<ResponseDto<void>> {
-        return await HttpHelper.sendDelete(`${this.path}/${id}`, this.headers);
+        return HttpHelper.sendDelete(`${this.path}/${id}`, this.headers);
     }
 }

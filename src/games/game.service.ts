@@ -9,18 +9,18 @@ export class GameService extends ApiBase {
     }
 
     public async create(data: GameRequestDto): Promise<ResponseDto<GameResponseDto>> {
-        return await HttpHelper.sendPost<GameResponseDto>(this.path, this.headers, data);
+        return HttpHelper.sendPost<GameResponseDto>(this.path, this.headers, data);
     }
 
     public async getAll(): Promise<ResponseDto<GameResponseDto[]>> {
-        return await HttpHelper.sendGet<GameResponseDto[]>(this.path, this.headers);
+        return HttpHelper.sendGet<GameResponseDto[]>(this.path, this.headers);
     }
 
     public async getById(id: string): Promise<ResponseDto<GameResponseDto>> {
-        return await HttpHelper.sendGet<GameResponseDto>(`${this.path}/${id}`, this.headers);
+        return HttpHelper.sendGet<GameResponseDto>(`${this.path}/${id}`, this.headers);
     }
 
     public async delete(id: string): Promise<ResponseDto<void>> {
-        return await HttpHelper.sendDelete(`${this.path}/${id}`, this.headers);
+        return HttpHelper.sendDelete(`${this.path}/${id}`, this.headers);
     }
 }

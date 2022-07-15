@@ -70,20 +70,20 @@ export class WalletNftMetadata {
 }
 
 export class WalletNftResponseDto {
-    token_address: string;
-    token_id: string;
-    owner_of: string;
-    block_number: string;
-    block_number_minted: string;
-    token_hash: string;
+    tokenAddress: string;
+    tokenId: string;
+    ownerOf: string;
+    blockNumber: string;
+    blockNumberMinted: string;
+    tokenHash: string;
     amount: string;
-    contract_type: string;
+    contractType: string;
     name: string;
     symbol: string;
-    token_uri: string;
+    tokenUri: string;
     metadata: WalletNftMetadata;
-    last_token_uri_sync: string;
-    last_metadata_sync: string;
+    lastTokenUriSync: string;
+    lastMetadataSync: string;
 
     public constructor(init?: WalletNftResponseDto) {
         Object.assign(this, init);
@@ -93,22 +93,22 @@ export class WalletNftResponseDto {
 export class TransactionsHistoryResponseDto {
     hash: string;
     nonce: string;
-    transaction_index: string;
-    from_address: string;
-    to_address: string;
+    transactionIndex: string;
+    fromAddress: string;
+    toAddress: string;
     value: string;
     gas: string;
-    gas_price: string;
+    gasPrice: string;
     input: string;
-    receipt_cumulative_gas_used: string;
-    receipt_gas_used: string;
-    receipt_contract_address: string;
-    receipt_root: string;
-    receipt_status: string;
-    block_timestamp: string;
-    block_number: string;
-    block_hash: string;
-    transfer_index: string[];
+    receiptCumulativeGasUsed: string;
+    receiptGasUsed: string;
+    receiptContractAddress: string;
+    receiptRoot: string;
+    receiptStatus: string;
+    blockTimestamp: string;
+    blockNumber: string;
+    blockHash: string;
+    transferIndex: string[];
 
     constructor(init?: TransactionsHistoryResponseDto) {
         Object.assign(this, init);
@@ -116,19 +116,19 @@ export class TransactionsHistoryResponseDto {
 }
 
 export class TransfersHistoryResponseDto {
-    block_number: string;
-    block_timestamp: string;
-    block_hash: string;
-    transaction_hash: string;
-    transaction_index: string;
-    log_index: string;
+    blockNumber: string;
+    blockTimestamp: string;
+    blockHash: string;
+    transactionHash: string;
+    transactionIndex: string;
+    logIndex: string;
     value: string;
-    contract_type: string;
-    transaction_type: string;
-    token_address: string;
-    token_id: string;
-    from_address: string;
-    to_address: string;
+    contractType: string;
+    transactionType: string;
+    tokenAddress: string;
+    tokenId: string;
+    fromAddress: string;
+    toAddress: string;
     amount: string;
     verified: number
     operator: string;
