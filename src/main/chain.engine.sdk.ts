@@ -9,11 +9,15 @@ export class ChainEngineSdk {
     private readonly _nfts: NftService;
     private readonly _wallets: WalletService;
 
-    constructor(url: string, apiKey: string, apiSecret: string) {
+    constructor(url: string, apiKey: string, apiSecret: string, apiMode?: ApiModeType) {
         const headers = {
             "Content-Type": "application/json",
             "x-api-key": apiKey,
             "x-api-secret": apiSecret
+        }
+
+        if (apiMode) {
+            headers['api-mode'] = apiMode;
         }
 
         this._players = new PlayerService(url, headers);
@@ -37,4 +41,9 @@ export class ChainEngineSdk {
     public wallets(): WalletService {
         return this._wallets;
     }
+}
+
+export enum ApiModeType {
+    PROD = 'mainnet',
+    TEST = 'testnet'
 }
