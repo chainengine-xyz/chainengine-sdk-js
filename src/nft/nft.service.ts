@@ -12,11 +12,31 @@ export class NftService extends ApiBase {
         super(`${path}/nfts`, headers);
     }
 
-    public async mint(data: NftRequestDto[]): Promise<ResponseDto<NftResponseDto[]>> {
+    public async mint(data: NftRequestDto): Promise<ResponseDto<NftResponseDto>> {
+        const response = await this.batchMint([data]);
+        return new ResponseDto<NftResponseDto>({
+            status: response.status,
+            data: response.data?.pop(),
+            message: response.message,
+            error: response.error,
+        });
+    }
+
+    public async batchMint(data: NftRequestDto[]): Promise<ResponseDto<NftResponseDto[]>> {
         return HttpHelper.sendPost<NftResponseDto[]>(this.path, this.headers, data);
     }
 
-    public async mintToGame(data: NftRequestDto[], gameId: string): Promise<ResponseDto<NftResponseDto[]>> {
+    public async mintToGame(data: NftRequestDto, gameId: string): Promise<ResponseDto<NftResponseDto>> {
+        const response = await this.batchMintToGame([data], gameId);
+        return new ResponseDto<NftResponseDto>({
+            status: response.status,
+            data: response.data?.pop(),
+            message: response.message,
+            error: response.error,
+        });
+    }
+
+    public async batchMintToGame(data: NftRequestDto[], gameId: string): Promise<ResponseDto<NftResponseDto[]>> {
         return HttpHelper.sendPost<NftResponseDto[]>(`${this.path}/game/${gameId}`, this.headers, data);
     }
 
@@ -28,7 +48,7 @@ export class NftService extends ApiBase {
         return HttpHelper.sendGet<TransactionEntry[]>(`${this.path}/${nftId}/transfers`, this.headers);
     }
 
-    public async getNft(id: string): Promise<ResponseDto<NftResponseDto>> {
+    public async getNftById(id: string): Promise<ResponseDto<NftResponseDto>> {
         return HttpHelper.sendGet<NftResponseDto>(`${this.path}/${id}`, this.headers);
     }
 
@@ -36,7 +56,7 @@ export class NftService extends ApiBase {
         return (await HttpHelper.sendGet<Int8Array>(`${this.path}/${nftId}/image`, this.headers)).data;
     }
 
-    public async fetchNFTs(queryParams: FetchQueryParams): Promise<ResponseDto<NftPaginationDto>> {
+    public async getNFTsByParams(queryParams: FetchQueryParams): Promise<ResponseDto<NftPaginationDto>> {
         return HttpHelper.sendGet<NftPaginationDto>(this.path, this.headers, queryParams);
     }
 }

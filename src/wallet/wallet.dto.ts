@@ -23,26 +23,16 @@ export class RestoreWalletPasswordResponseDto {
 }
 
 export interface ITransferRequest {
-    toAddress: string;
+    recipientId: string;
     password: string;
-    nft?: TransferNftDto;
+    nftId?: string;
     value?: string;
 }
 
-export class TransferNftDto {
-    tokenId: string;
-    contractAddress: string;
-
-    public constructor(tokenId, contractAddress) {
-        this.tokenId = tokenId;
-        this.contractAddress = contractAddress;
-    }
-}
-
 export class TransferNftRequestDto implements ITransferRequest {
-    toAddress: string;
+    recipientId: string;
     password: string;
-    nft: TransferNftDto;
+    nftId: string;
 
     public constructor(init?: ITransferRequest) {
         Object.assign(this, init);
@@ -50,7 +40,7 @@ export class TransferNftRequestDto implements ITransferRequest {
 }
 
 export class TransferTokenRequestDto implements ITransferRequest {
-    toAddress: string;
+    recipientId: string;
     password: string;
     value: string;
 

@@ -8,7 +8,7 @@ export class HttpHelper {
 
             return { data, status: ResponseStatus.OK };
         } catch (e) {
-            return { status: ResponseStatus.ERROR, message: e.message, error: e.error };
+            return { status: ResponseStatus.ERROR, message: e.response.data.message, error: e.response.data.error };
         }
     }
 
@@ -18,7 +18,7 @@ export class HttpHelper {
 
             return { data, status: ResponseStatus.OK };
         } catch (e) {
-            return { status: ResponseStatus.ERROR, message: e.message, error: e.error };
+            return { status: ResponseStatus.ERROR, message: e.response.data.message, error: e.response.data.error };
         }
     }
 
@@ -28,7 +28,7 @@ export class HttpHelper {
 
             return { data, status: ResponseStatus.OK };
         } catch (e) {
-            return { status: ResponseStatus.ERROR, message: e.message, error: e.error };
+            return { status: ResponseStatus.ERROR, message: e.response.data.message, error: e.response.data.error };
         }
     }
 
@@ -38,7 +38,7 @@ export class HttpHelper {
 
             return { data, status: ResponseStatus.OK };
         } catch (e) {
-            return { status: ResponseStatus.ERROR, message: e.message, error: e.error };
+            return { status: ResponseStatus.ERROR, message: e.response.data.message, error: e.response.data.error };
         }
     }
 }

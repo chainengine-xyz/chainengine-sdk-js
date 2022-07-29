@@ -32,8 +32,10 @@ export class PlayerResponseDto implements IPlayer {
 }
 
 export class CreatePlayerResponseDto {
-    message: string;
-    password: string;
-    mnemonicPhrase: string;
-    newPlayer: PlayerResponseDto;
+    wallet: {
+        message: string;
+        password: string;
+        mnemonic: string;
+    };
+    player: PlayerResponseDto;
 }
