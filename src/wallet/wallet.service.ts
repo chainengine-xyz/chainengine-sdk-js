@@ -11,7 +11,6 @@ import {
     WalletAddressResponseDto,
     WalletNftResponseDto
 } from './wallet.dto';
-import { Utils } from '../common/utils';
 
 export class WalletService extends ApiBase {
     constructor(path, headers) {
@@ -36,36 +35,18 @@ export class WalletService extends ApiBase {
     }
 
     public async getNFTs(playerId: string): Promise<ResponseDto<WalletNftResponseDto[]>> {
-        const result = await HttpHelper
-            .sendGet<WalletNftResponseDto[]>(`${this.path}/${playerId}/get-nfts`, this.headers);
-
-        result.data = result.data?.map((transfer) => {
-            return Utils.keysToCamel(transfer) as WalletNftResponseDto;
-        });
-
-        return result;
+        return HttpHelper
+            .sendGet<WalletNftResponseDto[]>(`${ this.path }/${ playerId }/get-nfts`, this.headers);
     }
 
     public async getTransactionsHistory(playerId: string): Promise<ResponseDto<TransactionsHistoryResponseDto[]>> {
-        const result = await HttpHelper
-            .sendGet<TransactionsHistoryResponseDto[]>(`${this.path}/${playerId}/transactions`, this.headers);
-
-        result.data = result.data?.map((transfer) => {
-            return Utils.keysToCamel(transfer) as TransactionsHistoryResponseDto;
-        });
-
-        return result;
+        return HttpHelper
+            .sendGet<TransactionsHistoryResponseDto[]>(`${ this.path }/${ playerId }/transactions`, this.headers);
     }
 
     public async getNftTransfersHistory(playerId: string): Promise<ResponseDto<TransfersHistoryResponseDto[]>> {
-        const result = await HttpHelper
-            .sendGet<TransfersHistoryResponseDto[]>(`${this.path}/${playerId}/transfers`, this.headers);
-
-        result.data = result.data?.map((transfer) => {
-            return Utils.keysToCamel(transfer) as TransfersHistoryResponseDto;
-        });
-
-        return result;
+        return HttpHelper
+            .sendGet<TransfersHistoryResponseDto[]>(`${ this.path }/${ playerId }/transfers`, this.headers);
     }
 
     public async transferNft(playerId: string, data: TransferNftRequestDto): Promise<ResponseDto<void>> {
