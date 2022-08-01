@@ -5,6 +5,8 @@ export interface INft {
     status: NftStatus;
     onChainId: string;
     accountId: string;
+    supply: number;
+    supplyAvailable: number;
     metadata: NftMetadata;
     ownerPlayerId: string;
     transactionHash: string;
@@ -16,6 +18,7 @@ export class NftRequestDto {
     description: string;
     name: string;
     imageURI: string;
+    supply: number;
     mintToAccount?: true;
     attributes?: object;
 
@@ -34,6 +37,8 @@ export class NftResponseDto {
     ownerPlayerId: string;
     status: NftStatus;
     mintingErrorMsg: string;
+    supply: number;
+    supplyAvailable: number;
     metadata: NftMetadata;
     transactionHash: string;
 
@@ -47,6 +52,8 @@ export class NftResponseDto {
                     gameId,
                     ownerPlayerId,
                     status,
+                    supply,
+                    supplyAvailable,
                     metadata,
                     mintingErrorMsg,
                 }: INft) {
@@ -60,6 +67,8 @@ export class NftResponseDto {
             gameId,
             ownerPlayerId,
             status,
+            supply,
+            supplyAvailable,
             metadata,
             mintingErrorMsg,
         });
