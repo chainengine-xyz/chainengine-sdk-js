@@ -2,11 +2,12 @@ import { ApiBase } from '../main/api.base';
 import { HttpHelper } from '../main/http.helper';
 import { TransferDto } from './transfer.dto';
 import { FetchQueryParams } from './fetch.query.params';
-import { NftRequestDto, NftResponseDto } from './nft.dto';
+import { NftRequestDto, NftResponseDto, UploadFileResponse } from './nft.dto';
 import { ResponseDto } from '../common/response.dto';
 import { TransactionEntry } from './transaction.entry.dto';
 import { NftPaginationDto } from './nft.pagination.dto';
 import { BurnDto } from './burn.dto';
+import { ReadStream } from 'fs';
 
 export class NftService extends ApiBase {
     constructor(path, headers) {
@@ -63,5 +64,9 @@ export class NftService extends ApiBase {
 
     public async burn(data: BurnDto, nftId: string): Promise<ResponseDto<NftResponseDto>> {
         return HttpHelper.sendPost<NftResponseDto>(`${this.path}/${nftId}/burn`, this.headers, data);
+    }
+
+    public async uploadFileToIFPS(file: ReadStream): Promise<ResponseDto<UploadFileResponse> | undefined> {
+        return HttpHelper.sendPutWithFile(`${this.path}/image`, this.headers, file);
     }
 }

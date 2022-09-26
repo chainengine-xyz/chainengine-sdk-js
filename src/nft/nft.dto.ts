@@ -93,4 +93,10 @@ export enum NftStatus {
     FAILED = 'FAILED',
 }
 
+export class UploadFileResponse {
+    url: string;
 
+    public constructor(init?: Partial<UploadFileResponse>) {
+        Object.assign(this, init);
+    }
+}
