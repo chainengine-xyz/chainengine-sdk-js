@@ -2,8 +2,7 @@ import axios from 'axios';
 import { ReadStream } from 'fs';
 import { ResponseStatus } from '../common/response.status.type';
 import fs from 'fs';
-import FormData from 'form-data';
-
+import * as FormData from 'form-data'
 export class HttpHelper {
     public static async sendGet<T>(url: string, header?, params?) {
         try {
@@ -27,15 +26,13 @@ export class HttpHelper {
 
     public static async sendPutWithFile<T>(url: string, header: any, file: ReadStream) {
         try {
-            const form = new FormData();
-            form.append('image', fs.createReadStream(file.path));
-            
-            const { data } = await axios.put<T>(url, { 
-                headers: Object.assign(header, {
-                    'Content-Type': `multipart/form-data; boundary=${form.getBoundary()}`,
-                }),
-                data: form
-             });
+            const body = new FormData();
+            body.append('image', file);
+
+            let _header = Object.assign({}, header);
+                _header['Content-Type'] = `multipart/form-data; boundary=${body.getBoundary()}`;
+
+            const { data } = await axios.put<T>(url, body, { headers: _header });
 
             return { data, status: ResponseStatus.OK };
         } catch (e) {
