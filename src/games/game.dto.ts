@@ -6,7 +6,7 @@ export interface IGame {
     id: string;
     name: string;
     description: string;
-    imageUrl: string;
+    image?: string;
     accountId: string;
     blockchain: Blockchain;
 }
@@ -24,11 +24,11 @@ export class GameResponseDto implements IGame {
     id: string;
     name: string;
     description: string;
-    imageUrl: string;
+    image?: string;
     accountId: string;
     blockchain: Blockchain;
 
-    constructor({ id, name, description, imageUrl, accountId, blockchain }: IGame) {
-        Object.assign(this, { id, name, description, imageUrl, accountId, blockchain });
+    constructor({ id, name, description, image, accountId, blockchain }: IGame) {
+        Object.assign(this, { id, name, description, image, accountId, blockchain });
     }
 }
