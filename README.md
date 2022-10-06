@@ -147,6 +147,9 @@ Actual transaction is also [available](https://polygonscan.com/tx/0x8547e466ac93
 
 Most of the SDK calls return type ```ResponseDto``` that has error status and ```data``` field with actual response data.
 
+Note: The image URI is hosted on IPFS, but you can use any other image hosting service.
+To see how to upload images to IPFS using our SDK please check [this](#upload).
+
 ## Fetch NFT by Id
 To fetch already minted NFT:
 ```javascript
@@ -388,4 +391,28 @@ sdk.nfts.getNFTsByParams({
 
 </details>
 
+## [Upload image to IPFS][upload]
+To upload images to IPFS using our SDK:
 
+```javascript
+await sdk.nfts.uploadFileToIFPS(file);
+```
+
+
+The response includes a URL that you can use to access the image from IPFS.
+
+You can then use this URL in the NFT metadata.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "url": "ipfs://QmUxJdroj17EXNceFGtzL4gxwM8uU18x6dQ3hyA58oBk2A",
+  },
+  "status": "OK"
+}
+```
+
+
+</details>
