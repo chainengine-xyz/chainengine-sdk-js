@@ -397,6 +397,7 @@ sdk.nfts.getNFTsByParams({
 
 </details>
 
+
 ## Upload image to IPFS
 To upload images to IPFS using our SDK you will need to provide a ReadStream of the image file. 
 You can use the following code to get a ReadStream from a file and upload the file.
@@ -457,7 +458,7 @@ The response will include the listing ID that you can use to update or delete th
 ```
 </details>
 
-## Fecthing an existing listing
+## Fetch an existing listing
 
 To fetch an existing listing you can use the following code:
 
@@ -485,7 +486,7 @@ The response will include the listing details.
 </details>
 
 
-## Canceling an existing listing
+## Cancel an existing listing
 
 To cancel an existing listing you can use the following code:
 
@@ -512,7 +513,7 @@ The response will include the listing details containing the updated status.
 ```
 </details>
 
-## Fetching listing using a query
+## Fetch listings using a query
 
 When fetching for listings you can use some query parameters to execute filtering. The following parameters are available:
 
