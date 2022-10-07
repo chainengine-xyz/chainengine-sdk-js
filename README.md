@@ -79,13 +79,13 @@ import { ChainEngineSdk } from 'chainengine-sdk';
 sdk = new ChainEngineSdk('https://api.chainengine.xyz', YOUR_API_KEY, YOUR_API_SECRET);
 ```
 
-Please create the first game in the developer console, and copy and save your game id. We will need that to make requests.
- 
-Below you'll find a few examples of how you can use SDK.
+Please create the first game on the developer console, and copy and save your game ID. We will need that to make requests.
+
+Below you'll find a few examples of how you can use the SDK.
 
 ## Mint your first NFT
 
-Let's start by minting your first NFT, please substitute YOUR_GAME_ID to your game id from the developer console.
+Let's start by minting your first NFT, please substitute YOUR_GAME_ID with your game id from the developer console.
 
 ```javascript
 const gameId = 'YOUR_GAME_ID';
@@ -143,9 +143,9 @@ sdk.nfts.mintToGame(
 
 </details>
 
-Actual transaction is also [available](https://polygonscan.com/tx/0x8547e466ac93e34df02643b28a11daabe4c46a5e9ceb095aa1e13a70534fbe35) on chain explorer.
+Actual transaction is also [available](https://polygonscan.com/tx/0x8547e466ac93e34df02643b28a11daabe4c46a5e9ceb095aa1e13a70534fbe35) on the chain explorer.
 
-Most of the SDK calls return type ```ResponseDto``` that has error status and ```data``` field with actual response data.
+Most of the SDK calls return type ```ResponseDto``` which has an error status and a ```data``` field with actual response data.
 
 Note: The image URI is hosted on IPFS, but you can use any other image hosting service.
 To see how to upload images to IPFS using our SDK please check [this](#upload-image-to-ipfs).
@@ -161,7 +161,7 @@ The response is the same as the mint function.
 
 ## Create a player
 
-To transfer NFT to the player, we need to create our first player:
+To transfer an NFT to the player, we need to create our first player:
 ```javascript
 sdk.players.create({
   gameId: gameId,
@@ -188,15 +188,15 @@ sdk.players.create({
 
 In this case, we have created a new player with a non-custodial wallet (to create a custodial wallet, please read our [Custodial Wallets](doc:custodial-wallets) guide).
 
-The non-custodial wallet can be connected through our Unity SDK. Read more how to use our Unity SDK.
+The non-custodial wallet can be connected through our Unity SDK. Learn more about our Unity SDK [here](doc:unity-sdk).
 
 ## Transfer NFT to the player
-After the player is created, we can transfer NFT to a player (we substitute already created playerId and nftId):
+After the player is created, we can transfer NFT to a player ( substitute the already created playerId and nftId):
 
 ```javascript
 const nftId = '5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d';
 const playerId = 'f406fb49-832f-4fe1-8df6-2f93ba5544c1';
-const response = await this.sdk.nfts.transfer({ playerId: playerId, amount: 3 }, nftId);
+const response = await sdk.nfts.transfer({ playerId: playerId, amount: 3 }, nftId);
 ```
 
 <details><summary>Click to see the response</summary>
@@ -254,6 +254,12 @@ const response = await this.sdk.nfts.getNFTsByParams({
 });
 ```
 
+**Note**: To implement this, please ensure that you add the line below at the beginning of your code:
+
+```javascript
+import {ChainEngineSdk} from 'chainengine-sdk/dist/nft/fetch.type.js';
+```
+
 The response includes all NFTs owned by a particular player, in this case, we have only 1 NFT
 <details><summary>Click to see the response</summary>
 
@@ -305,7 +311,7 @@ The response includes all NFTs owned by a particular player, in this case, we ha
 </details>
 
 ## Get all game NFTs
-To get all NFTs in the game, simply query by game ID:
+To get all the NFTs in the game, simply query by game ID:
 
 ```javascript
 sdk.nfts.getNFTsByParams({
@@ -391,13 +397,15 @@ sdk.nfts.getNFTsByParams({
 
 </details>
 
+
 ## Upload image to IPFS
-To upload images to IPFS using our SDK:
+To upload images to IPFS using our SDK you will need to provide a ReadStream of the image file. 
+You can use the following code to get a ReadStream from a file and upload the file.
 
 ```javascript
-await sdk.nfts.uploadFileToIFPS(file);
+const fileReadStream = await fs.createReadStream(`sample-image.jpg`);
+const uploadResponse = await sdk.nfts.uploadFileToIFPS(file);
 ```
-
 
 The response includes a URL that you can use to access the image from IPFS.
 
@@ -414,5 +422,128 @@ You can then use this URL in the NFT metadata.
 }
 ```
 
+</details>
 
+## Create NFT Listing
+
+As game developer to create an NFT listing you will need to use the following code:
+
+```javascript
+sdk.marketplace.listings.create({
+    "nftId": '5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d',
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": '0x32c45d580DE0F6126941bfb8ff2181e778545E85',
+});
+```
+
+**Note**: The `receiptWallet` is the wallet address that will receive the payment when the NFT is sold; ChainEngine do not hold any funds.
+
+The response will include the listing ID that you can use to update or delete the listing.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "active",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+## Fetch an existing listing
+
+To fetch an existing listing you can use the following code:
+
+```javascript
+sdk.marketplace.listings.getSingle('5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d');
+```
+
+The response will include the listing details.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "active",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+
+## Cancel an existing listing
+
+To cancel an existing listing you can use the following code:
+
+```javascript
+sdk.marketplace.listings.cancel('5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d');
+```
+
+The response will include the listing details containing the updated status.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "canceled",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+## Fetch listings using a query
+
+When fetching for listings you can use some query parameters to execute filtering. The following parameters are available:
+
+- `gameId` - Filter by Game ID
+- `search` - Filter by searching in the NFT name
+
+```javascript
+sdk.marketplace.listings.getByQuery({
+    gameId: '26716535-bb9a-4ad4-afb1-4effa5a7830b',
+    search: 'Hammer',
+});
+```
+
+The response will include a list of listing tha match the filtering criteria.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": [
+    {
+      "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+      "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+      "amount": 1,
+      "price": 0.0001,
+      "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+      "status": "active",
+    },
+  ],
+  "status": "OK"
+}
+```
 </details>
