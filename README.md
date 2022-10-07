@@ -398,10 +398,12 @@ sdk.nfts.getNFTsByParams({
 </details>
 
 ## Upload image to IPFS
-To upload images to IPFS using our SDK:
+To upload images to IPFS using our SDK you will need to provide a ReadStream of the image file. 
+You can use the following code to get a ReadStream from a file and upload the file.
 
 ```javascript
-await sdk.nfts.uploadFileToIFPS(file);
+const fileReadStream = await fs.createReadStream(`sample-image.jpg`);
+const uploadResponse = await sdk.nfts.uploadFileToIFPS(file);
 ```
 
 The response includes a URL that you can use to access the image from IPFS.
@@ -419,5 +421,128 @@ You can then use this URL in the NFT metadata.
 }
 ```
 
+</details>
 
+## Create NFT Listing
+
+As game developer to create an NFT listing you will need to use the following code:
+
+```javascript
+sdk.marketplace.listings.create({
+    "nftId": '5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d',
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": '0x32c45d580DE0F6126941bfb8ff2181e778545E85',
+});
+```
+
+**Note**: The `receiptWallet` is the wallet address that will receive the payment when the NFT is sold; ChainEngine do not hold any funds.
+
+The response will include the listing ID that you can use to update or delete the listing.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "active",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+## Fecthing an existing listing
+
+To fetch an existing listing you can use the following code:
+
+```javascript
+sdk.marketplace.listings.getSingle('5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d');
+```
+
+The response will include the listing details.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "active",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+
+## Canceling an existing listing
+
+To cancel an existing listing you can use the following code:
+
+```javascript
+sdk.marketplace.listings.cancel('5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d');
+```
+
+The response will include the listing details containing the updated status.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": {
+    "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+    "amount": 1,
+    "price": 0.0001,
+    "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+    "status": "canceled",
+  },
+  "status": "OK"
+}
+```
+</details>
+
+## Fetching listing using a query
+
+When fetching for listings you can use some query parameters to execute filtering. The following parameters are available:
+
+- `gameId` - Filter by Game ID
+- `search` - Filter by searching in the NFT name
+
+```javascript
+sdk.marketplace.listings.getByQuery({
+    gameId: '26716535-bb9a-4ad4-afb1-4effa5a7830b',
+    search: 'Hammer',
+});
+```
+
+The response will include a list of listing tha match the filtering criteria.
+
+<details><summary>Click to see the response</summary>
+
+```json
+{
+  "data": [
+    {
+      "id": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+      "nftId": "5b52a2e2-6ffa-4edf-9d99-23fe8fabf72d",
+      "amount": 1,
+      "price": 0.0001,
+      "receiptWallet": "0x32c45d580DE0F6126941bfb8ff2181e778545E85",
+      "status": "active",
+    },
+  ],
+  "status": "OK"
+}
+```
 </details>
