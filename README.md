@@ -404,7 +404,7 @@ You can use the following code to get a ReadStream from a file and upload the fi
 
 ```javascript
 const fileReadStream = await fs.createReadStream(`sample-image.jpg`);
-const uploadResponse = await sdk.nfts.uploadFileToIFPS(file);
+const uploadResponse = await sdk.nfts.uploadFileToIPFS(file);
 ```
 
 The response includes a URL that you can use to access the image from IPFS.

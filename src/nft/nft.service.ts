@@ -66,7 +66,7 @@ export class NftService extends ApiBase {
         return HttpHelper.sendPost<NftResponseDto>(`${this.path}/${nftId}/burn`, this.headers, data);
     }
 
-    public async uploadFileToIFPS(file: ReadStream): Promise<ResponseDto<UploadFileResponse> | undefined> {
+    public async uploadFileToIPFS(file: ReadStream): Promise<ResponseDto<UploadFileResponse> | undefined> {
         return HttpHelper.sendPutWithFile(`${this.path}/image`, this.headers, file);
     }
 }
